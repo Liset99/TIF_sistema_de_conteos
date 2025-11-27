@@ -14,9 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('mesas', function (Blueprint $table) {
-            $table->id();
+            $table->integer('idMesa')->primary();
+            $table->integer('electores');
+            $table->string('establecimiento');
+            $table->string('circuito');
+            $table->string('nombreProvincia');
+
+
             $table->timestamps();
+
+
+            $table->foreign('nombreProvincia')->references('nombre')->on('provincias');
         });
+
     }
 
     /**

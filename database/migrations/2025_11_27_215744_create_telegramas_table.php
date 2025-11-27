@@ -14,9 +14,24 @@ return new class extends Migration
     public function up()
     {
         Schema::create('telegramas', function (Blueprint $table) {
-            $table->id();
+            $table->integer('idTelegrama')->primary();
+            $table->integer('votosDiputados');
+            $table->integer('votosSenadores');
+            $table->integer('blancos');
+            $table->integer('nulos');
+            $table->integer('impugnados');
+            $table->dateTime('fechaHora');
+            $table->integer('idMesa');
+            $table->integer('idUsuario');
+
+
             $table->timestamps();
+
+
+            $table->foreign('idMesa')->references('idMesa')->on('Mesa');
+            $table->foreign('idUsuario')->references('idUsuario')->on('Usuario');
         });
+
     }
 
     /**

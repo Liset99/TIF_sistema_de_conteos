@@ -14,9 +14,19 @@ return new class extends Migration
     public function up()
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
+            $table->integer('idUsuario')->primary();
+            $table->string('nombreDeUsuario');
+            $table->string('contrasenia');
+            $table->string('rol');
+            $table->string('dni');
+
+
             $table->timestamps();
+
+
+            $table->foreign('dni')->references('dni')->on('Personas');
         });
+
     }
 
     /**

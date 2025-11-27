@@ -14,9 +14,20 @@ return new class extends Migration
     public function up()
     {
         Schema::create('resultados', function (Blueprint $table) {
-            $table->id();
+            $table->integer('idResultado')->primary();
+            $table->integer('votos');
+            $table->decimal('porcentaje',5,2);
+            $table->integer('idLista');
+            $table->integer('idTelegrama');
+
+
             $table->timestamps();
+
+
+            $table->foreign('idLista')->references('idLista')->on('Lista');
+            $table->foreign('idTelegrama')->references('idTelegrama')->on('Telegrama');
         });
+
     }
 
     /**

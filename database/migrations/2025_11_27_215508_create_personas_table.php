@@ -14,9 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('personas', function (Blueprint $table) {
-            $table->id();
+            $table->string('dni')->primary();
+            $table->string('nombre');
+            $table->string('apellido');
             $table->timestamps();
         });
+
     }
 
     /**
