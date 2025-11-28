@@ -19,18 +19,16 @@ return new class extends Migration
             $table->string('establecimiento');
             $table->string('circuito');
 
-
-            $table->string('idProvincia');
-
+            $table->unsignedBigInteger('idProvincia');
 
             $table->timestamps();
 
-
             $table->foreign('idProvincia')
-            ->references('idProvincia')
-            ->on('provincias')
-            ->onDelete('cascade');
+                ->references('idProvincia')
+                ->on('provincias')
+                ->onDelete('cascade');
         });
+
 
     }
 

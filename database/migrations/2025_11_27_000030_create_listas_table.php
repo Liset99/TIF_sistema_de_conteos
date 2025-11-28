@@ -20,18 +20,17 @@ return new class extends Migration
             $table->string('cargoDiputado')->nullable();
             $table->string('cargoSenador')->nullable();
 
-
-            $table->string('idProvincia');
-
+            $table->unsignedBigInteger('idProvincia');
 
             $table->timestamps();
 
-
             $table->foreign('idProvincia')
-            ->references('idProvincia')
-            ->on('provincias')
-            ->onDelete('cascade');
+                ->references('idProvincia')
+                ->on('provincias')
+                ->onDelete('cascade');
         });
+
+
 
     }
 
