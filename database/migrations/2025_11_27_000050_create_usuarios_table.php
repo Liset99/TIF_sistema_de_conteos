@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->integer('idUsuario')->primary();
+            $table->id('idUsuario');
             $table->string('nombreDeUsuario');
             $table->string('contrasenia');
             $table->string('rol');
@@ -24,7 +24,10 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('dni')->references('dni')->on('Personas');
+            $table->foreign('dni')
+            ->references('dni')
+            ->on('personas')
+            ->onDelete('cascade');
         });
 
     }

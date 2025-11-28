@@ -14,22 +14,32 @@ return new class extends Migration
     public function up()
     {
         Schema::create('telegramas', function (Blueprint $table) {
-            $table->integer('idTelegrama')->primary();
+            $table->id('idTelegrama');
             $table->integer('votosDiputados');
             $table->integer('votosSenadores');
             $table->integer('blancos');
             $table->integer('nulos');
             $table->integer('impugnados');
             $table->dateTime('fechaHora');
-            $table->integer('idMesa');
-            $table->integer('idUsuario');
+
+
+            $table->unsignedBigInteger('idMesa');
+            $table->unsignedBigInteger('idUsuario');
 
 
             $table->timestamps();
 
 
-            $table->foreign('idMesa')->references('idMesa')->on('Mesa');
-            $table->foreign('idUsuario')->references('idUsuario')->on('Usuario');
+            $table->foreign('idMesa')
+            ->references('idMesa')
+            ->on('mesas')
+            ->onDelete('cascade');
+
+
+            $table->foreign('idUsuario')
+            ->references('idUsuario')
+            ->on('usuarios')
+            ->onDelete('cascade');
         });
 
     }

@@ -14,19 +14,23 @@ return new class extends Migration
     public function up()
     {
         Schema::create('listas', function (Blueprint $table) {
-            $table->integer('idLista')->primary();
+            $table->id('idLista');
             $table->string('nombre');
             $table->string('alianza')->nullable();
             $table->string('cargoDiputado')->nullable();
             $table->string('cargoSenador')->nullable();
-            $table->string('nombreProvincia'); // columna que referenciará
+
+
+            $table->string('nombreProvincia');
 
 
             $table->timestamps();
 
 
-            // PONER LA FK AQUÍ, DENTRO DEL MISMO CLOSURE
-            $table->foreign('nombreProvincia')->references('nombre')->on('provincias');
+            $table->foreign('nombreProvincia')
+            ->references('nombre')
+            ->on('provincias')
+            ->onDelete('cascade');
         });
 
     }

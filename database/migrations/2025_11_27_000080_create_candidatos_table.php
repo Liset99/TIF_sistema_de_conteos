@@ -14,20 +14,30 @@ return new class extends Migration
     public function up()
     {
         Schema::create('candidatos', function (Blueprint $table) {
-            $table->integer('idCandidato')->primary();
+            $table->id('idCandidato');
             $table->string('dni');
             $table->string('cargo');
             $table->integer('ordenEnLista');
             $table->string('nombre');
             $table->string('apellido');
-            $table->integer('idLista');
+
+
+            $table->unsignedBigInteger('idLista');
 
 
             $table->timestamps();
 
 
-            $table->foreign('dni')->references('dni')->on('Personas');
-            $table->foreign('idLista')->references('idLista')->on('Lista');
+            $table->foreign('dni')
+            ->references('dni')
+            ->on('personas')
+            ->onDelete('cascade');
+
+
+            $table->foreign('idLista')
+            ->references('idLista')
+            ->on('listas')
+            ->onDelete('cascade');
         });
 
     }

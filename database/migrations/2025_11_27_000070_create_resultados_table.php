@@ -14,18 +14,28 @@ return new class extends Migration
     public function up()
     {
         Schema::create('resultados', function (Blueprint $table) {
-            $table->integer('idResultado')->primary();
+            $table->id('idResultado');
             $table->integer('votos');
-            $table->decimal('porcentaje',5,2);
-            $table->integer('idLista');
-            $table->integer('idTelegrama');
+            $table->decimal('porcentaje', 5, 2);
+
+
+            $table->unsignedBigInteger('idLista');
+            $table->unsignedBigInteger('idTelegrama');
 
 
             $table->timestamps();
 
 
-            $table->foreign('idLista')->references('idLista')->on('Lista');
-            $table->foreign('idTelegrama')->references('idTelegrama')->on('Telegrama');
+            $table->foreign('idLista')
+            ->references('idLista')
+            ->on('listas')
+            ->onDelete('cascade');
+
+
+            $table->foreign('idTelegrama')
+            ->references('idTelegrama')
+            ->on('telegramas')
+            ->onDelete('cascade');
         });
 
     }
