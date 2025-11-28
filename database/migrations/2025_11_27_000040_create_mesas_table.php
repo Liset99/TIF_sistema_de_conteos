@@ -20,14 +20,14 @@ return new class extends Migration
             $table->string('circuito');
 
 
-            $table->string('nombreProvincia');
+            $table->string('idProvincia');
 
 
             $table->timestamps();
 
 
-            $table->foreign('nombreProvincia')
-            ->references('nombre')
+            $table->foreign('idProvincia')
+            ->references('idProvincia')
             ->on('provincias')
             ->onDelete('cascade');
         });
