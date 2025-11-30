@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Provincia;
+use App\Models\Mesa;
+use App\Models\Lista;
 use Illuminate\Http\Request;
 
 class ProvinciaController extends Controller
