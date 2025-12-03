@@ -2,19 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-=======
 use App\Http\Controllers\MesasController;
 use App\Http\Controllers\CandidatosController;
 use App\Http\Controllers\ListasController;
@@ -28,13 +15,10 @@ use App\Http\Controllers\ProvinciaController;
 Route::get('/test', function() {
     return response()->json(['mensaje' => 'API funcionando correctamente']);
 });
->>>>>>> feature
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-<<<<<<< HEAD
-=======
 Route::prefix('candidatos')->group(function () {
 
  //Rutas Candidatos
@@ -141,4 +125,3 @@ Route::get('/provincias/region/{region}', [ProvinciaController::class, 'porRegio
 Route::get('/provincias-resumen', [ProvinciaController::class, 'resumen']);
 Route::get('/provincias-exportar', [ProvinciaController::class, 'exportar']);
 Route::post('/provincias-importar', [ProvinciaController::class, 'importar']);
->>>>>>> feature
