@@ -19,6 +19,7 @@ Route::get('/test', function() {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::prefix('candidatos')->group(function () {
 
  //Rutas Candidatos
