@@ -9,6 +9,7 @@ class Resultado extends Model
 {
     use HasFactory;
 
+    protected $table = 'resultados';
     protected $primaryKey = 'idResultado';
     public $incrementing = false;
     protected $keyType = 'int';

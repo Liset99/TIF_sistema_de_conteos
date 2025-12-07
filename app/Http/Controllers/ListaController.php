@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lista;
 
-class ListasController extends Controller
+class ListaController extends Controller
 {
     // Listar todos
     public function index()

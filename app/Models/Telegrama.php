@@ -9,6 +9,7 @@ class Telegrama extends Model
 {
     use HasFactory;
 
+    protected $table = 'telegramas';  // <-- AGREGAR ESTA LÍNEA
     protected $primaryKey = 'idTelegrama';
     public $incrementing = false;
     protected $keyType = 'int';
@@ -22,9 +23,7 @@ class Telegrama extends Model
     {
         return $this->belongsTo(Mesa::class, 'idMesa', 'idMesa');
     }
-
     
-
     public function resultados()
     {
         return $this->hasMany(Resultado::class, 'idTelegrama', 'idTelegrama');

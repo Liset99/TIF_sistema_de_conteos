@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mesa;
 
-class MesasController extends Controller
+class MesaController extends Controller
 {
     // Listar todos
     public function index()

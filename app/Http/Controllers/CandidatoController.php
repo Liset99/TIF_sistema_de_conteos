@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Candidato;
 
-class CandidatosController extends Controller
+class CandidatoController extends Controller
 {
     // Listar todos
     public function index()

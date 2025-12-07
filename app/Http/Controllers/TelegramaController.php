@@ -6,7 +6,7 @@ use App\Models\Telegrama;
 use App\Models\Mesa;
 use Illuminate\Http\Request;
 
-class TelegramasController extends Controller
+class TelegramaController extends Controller
 {
     // Listar todos
     public function index()

@@ -13,7 +13,7 @@ namespace App\Http\Controllers;
 use App\Models\Provincia;
 use Illuminate\Http\Request;
 
-class ProvinciasController extends Controller
+class ProvinciaController extends Controller
 {
     // Listar todos
     public function index()
