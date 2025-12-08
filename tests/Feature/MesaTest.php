@@ -50,7 +50,7 @@ class MesaTest extends TestCase
                      'mensaje' => 'Mesa creada exitosamente'
                  ]);
 
-        $this->assertDatabaseHas('Mesa', [
+        $this->assertDatabaseHas('mesas', [
             'electores' => 350,
             'establecimiento' => 'Escuela N° 123'
         ]);
@@ -93,7 +93,7 @@ class MesaTest extends TestCase
                      'mensaje' => 'Mesa actualizada exitosamente'
                  ]);
 
-        $this->assertDatabaseHas('Mesa', [
+        $this->assertDatabaseHas('mesas', [
             'idMesa' => $mesa->idMesa,
             'electores' => 500,
             'establecimiento' => 'Escuela Actualizada'
@@ -113,7 +113,7 @@ class MesaTest extends TestCase
                      'mensaje' => 'Mesa eliminada correctamente'
                  ]);
 
-        $this->assertDatabaseMissing('Mesa', [
+        $this->assertDatabaseMissing('mesas', [
             'idMesa' => $mesa->idMesa
         ]);
     }
@@ -132,7 +132,7 @@ class MesaTest extends TestCase
                      'error' => 'No se puede eliminar la mesa porque tiene telegramas asociados'
                  ]);
 
-        $this->assertDatabaseHas('Mesa', [
+        $this->assertDatabaseHas('mesas', [
             'idMesa' => $mesa->idMesa
         ]);
     }

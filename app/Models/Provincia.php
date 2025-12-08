@@ -9,9 +9,8 @@ class Provincia extends Model
     
     protected $table = 'provincias';  // <-- AGREGAR ESTA LÍNEA
     protected $primaryKey = 'idProvincia';
-    public $incrementing = false;
-    protected $fillable = ['idProvincia', 'nombre', 'codigo', 'region',];
-
+    public $incrementing = true;
+      protected $keyType = 'int';
     public function listas()
     {
         return $this->hasMany(Lista::class, 'idProvincia');

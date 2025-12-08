@@ -23,8 +23,8 @@ class TelegramaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'idTelegrama' => 'required|integer|unique:Telegrama,idTelegrama',
-            'idMesa' => 'required|integer|exists:Mesa,idMesa',
+            'idTelegrama' => 'required|integer|unique:telegramas,idTelegrama',
+            'idMesa' => 'required|integer|exists:mesas,idMesa',
             'votosDiputados' => 'required|integer|min:0',
             'votosSenadores' => 'required|integer|min:0',
             'blancos' => 'required|integer|min:0',

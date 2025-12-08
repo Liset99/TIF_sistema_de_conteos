@@ -13,7 +13,7 @@ class MesaFactory extends Factory
     public function definition(): array
     {
         return [
-            'electores' => $this->faker->numberBetween(100, 500),
+            'electores' => $this->faker->numberBetween(1, 500),
             'establecimiento' => 'Escuela ' . $this->faker->company(),
             'circuito' => 'Circuito ' . $this->faker->numberBetween(1, 100),
             'idProvincia' => Provincia::factory(),

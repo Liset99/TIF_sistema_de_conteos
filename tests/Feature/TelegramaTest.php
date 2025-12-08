@@ -58,7 +58,7 @@ class TelegramaTest extends TestCase
                      'mensaje' => 'Telegrama creado exitosamente'
                  ]);
 
-        $this->assertDatabaseHas('Telegrama', [
+        $this->assertDatabaseHas('telegramas', [
             'idTelegrama' => 1,
             'votosDiputados' => 200,
             'votosSenadores' => 180
@@ -91,7 +91,7 @@ class TelegramaTest extends TestCase
                      'error' => 'El total de votos no puede superar la cantidad de electores'
                  ]);
 
-        $this->assertDatabaseMissing('Telegrama', [
+        $this->assertDatabaseMissing('telegramas', [
             'idTelegrama' => 1
         ]);
     }
@@ -144,7 +144,7 @@ class TelegramaTest extends TestCase
                      'mensaje' => 'Telegrama actualizado exitosamente'
                  ]);
 
-        $this->assertDatabaseHas('Telegrama', [
+        $this->assertDatabaseHas('telegramas', [
             'idTelegrama' => $telegrama->idTelegrama,
             'votosDiputados' => 150
         ]);
@@ -191,7 +191,7 @@ class TelegramaTest extends TestCase
                      'mensaje' => 'Telegrama eliminado correctamente'
                  ]);
 
-        $this->assertDatabaseMissing('Telegrama', [
+        $this->assertDatabaseMissing('telegramas', [
             'idTelegrama' => $telegrama->idTelegrama
         ]);
     }
