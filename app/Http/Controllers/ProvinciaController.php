@@ -2,36 +2,91 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Provincia;
+use App\Models\Lista;
+use App\Models\Resultado;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+namespace App\Http\Controllers;
+
+use App\Models\Provincia;
 use Illuminate\Http\Request;
 
 class ProvinciaController extends Controller
 {
-    public function agregarMesa(Request $request, $provinciaId)
+    // Listar todos
+    public function index()
     {
-        Mesa::create([
-            'numeroMesa' => $request->numeroMesa,
-            'idProvincia' => $provinciaId,
-            'votos_totales' => 0
+        $provincias = Provincia::all();
+        
+        return response()->json([
+            'total' => $provincias->count(),
+            'provincias' => $provincias
         ]);
-
-        return "Mesa agregada correctamente";
     }
 
-    public function agregarLista(Request $request, $provinciaId)
+    // Crear
+    public function store(Request $request)
     {
-        Lista::create([
-            'nombreLista' => $request->nombreLista,
-            'idProvincia' => $provinciaId
+        $validated = $request->validate([
+            'idProvincia' => 'required|integer|unique:Provincia,idProvincia',
+            'nombre' => 'required|string|max:255|unique:Provincia,nombre',
+            'codigo' => 'nullable|string|max:10',
+            'region' => 'nullable|string|max:100',
         ]);
 
-        return "Lista agregada correctamente";
+        $provincia = Provincia::create($validated);
+
+        return response()->json([
+            'mensaje' => 'Provincia creada exitosamente',
+            'provincia' => $provincia
+        ], 201);
     }
 
-    public function calcularTotales($provinciaId)
+    // Mostrar uno
+    public function show($id)
     {
-        $total = Mesa::where('idProvincia', $provinciaId)
-                      ->sum('votos_totales');
+        $provincia = Provincia::findOrFail($id);
+        
+        return response()->json($provincia);
+    }
 
-        return $total;
+    // Actualizar
+    public function update(Request $request, $id)
+    {
+        $provincia = Provincia::findOrFail($id);
+
+        $validated = $request->validate([
+            'nombre' => 'sometimes|string|max:255|unique:Provincia,nombre,' . $id . ',idProvincia',
+            'codigo' => 'nullable|string|max:10',
+            'region' => 'nullable|string|max:100',
+        ]);
+
+        $provincia->update($validated);
+
+        return response()->json([
+            'mensaje' => 'Provincia actualizada exitosamente',
+            'provincia' => $provincia
+        ]);
+    }
+
+    // Eliminar
+    public function destroy($id)
+    {
+        $provincia = Provincia::findOrFail($id);
+        
+        // Verificar si tiene listas o mesas
+        if ($provincia->listas()->exists() || $provincia->mesas()->exists()) {
+            return response()->json([
+                'error' => 'No se puede eliminar la provincia porque tiene registros asociados'
+            ], 400);
+        }
+
+        $provincia->delete();
+
+        return response()->json([
+            'mensaje' => 'Provincia eliminada correctamente'
+        ]);
     }
 }

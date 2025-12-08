@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Candidato extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'idCandidato';
+    public $incrementing = false;
+    protected $keyType = 'int';
+    public $timestamps = true;
+
+    protected $fillable = ['idCandidato', 'cargo', 'ordenEnLista', 'nombre', 'apellido', 'idLista'];
+
+    
+
+    public function lista()
+    {
+        return $this->belongsTo(Lista::class, 'idLista', 'idLista');
+    }
 }
+
