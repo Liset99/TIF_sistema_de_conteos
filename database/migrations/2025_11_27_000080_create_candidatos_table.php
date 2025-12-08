@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('candidatos', function (Blueprint $table) {
             $table->id('idCandidato');
-            $table->string('dni');
             $table->string('cargo');
             $table->integer('ordenEnLista');
             $table->string('nombre');
@@ -23,17 +22,7 @@ return new class extends Migration
 
 
             $table->unsignedBigInteger('idLista');
-
-
             $table->timestamps();
-
-
-            $table->foreign('dni')
-            ->references('dni')
-            ->on('personas')
-            ->onDelete('cascade');
-
-
             $table->foreign('idLista')
             ->references('idLista')
             ->on('listas')

@@ -19,7 +19,7 @@ class TelegramaFactory extends Factory
             'nulos' => $this->faker->numberBetween(0, 30),
             'impugnados' => $this->faker->numberBetween(0, 20),
             'fechaHora' => $this->faker->dateTimeBetween('-1 month', 'now'),
-            'idMesa' => Mesa::factory(),
+            
         ];
     }
 }

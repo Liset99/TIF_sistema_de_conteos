@@ -24,7 +24,6 @@ return new class extends Migration
 
 
             $table->unsignedBigInteger('idMesa');
-            $table->unsignedBigInteger('idUsuario');
 
 
             $table->timestamps();
@@ -36,10 +35,7 @@ return new class extends Migration
             ->onDelete('cascade');
 
 
-            $table->foreign('idUsuario')
-            ->references('idUsuario')
-            ->on('usuarios')
-            ->onDelete('cascade');
+            
         });
 
     }
