@@ -13,7 +13,10 @@ class ListaFactory extends Factory
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->word() . ' ' . $this->faker->word(),
+            'nombre' => $this->faker->company() . ' - Lista ' . $this->faker->numberBetween(1, 100),
+            'alianza' => $this->faker->optional()->company(),
+            'cargoDiputado' => $this->faker->boolean(),
+            'cargoSenador' => $this->faker->boolean(),
             'idProvincia' => Provincia::factory(),
         ];
     }
