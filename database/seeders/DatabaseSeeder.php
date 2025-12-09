@@ -14,7 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        if (!app()->environment('testing')) {
         $this->call(TestDataSeeder::class);
+        }
+        //$this->call(TestDataSeeder::class);
 
         // \App\Models\User::factory(10)->create();
 

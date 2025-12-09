@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Lista;
 use App\Models\Provincia;
+use App\Models\Telegrama;
+use App\Models\Resultado;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ListaFactory extends Factory

@@ -16,10 +16,11 @@ class ResultadoFactory extends Factory
         return [
             'votos' => $this->faker->numberBetween(0, 500),
             'porcentaje' => $this->faker->randomFloat(2, 0, 100),
+            
+            // No crear Telegrama si viene uno desde el test
             'idTelegrama' => Telegrama::factory(),
-            'idLista' => function () {
-                return Lista::factory()->create()->idLista;
-            },
+
+            'idLista'     => Lista::factory(), // ESTA ES LA CLAVE
         ];
     }
 }
