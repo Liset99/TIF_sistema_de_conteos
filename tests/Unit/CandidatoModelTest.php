@@ -7,7 +7,7 @@ use App\Models\Candidato;
 use App\Models\Lista;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CandidatoControllerTest extends TestCase
+class CandidatoModelTest extends TestCase
 {
     use RefreshDatabase;
 

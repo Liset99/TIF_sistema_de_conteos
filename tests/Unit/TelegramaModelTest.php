@@ -7,7 +7,7 @@ use App\Models\Telegrama;
 use App\Models\Mesa;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TelegramaControllerTest extends TestCase
+class TelegramaModelTest extends TestCase
 {
     use RefreshDatabase;
 

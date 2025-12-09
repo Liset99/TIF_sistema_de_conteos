@@ -8,7 +8,7 @@ use App\Models\Lista;
 use App\Models\Telegrama;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ResultadoControllerTest extends TestCase
+class ResultadoModelTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -7,7 +7,7 @@ use App\Models\Mesa;
 use App\Models\Provincia;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class MesaControllerTest extends TestCase
+class MesaModelTest extends TestCase
 {
     use RefreshDatabase;
 

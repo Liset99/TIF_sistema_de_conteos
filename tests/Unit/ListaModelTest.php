@@ -8,7 +8,7 @@ use App\Models\Provincia;
 use App\Models\Candidato;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ListaControllerTest extends TestCase
+class ListaModelTest extends TestCase
 {
     use RefreshDatabase;
 
