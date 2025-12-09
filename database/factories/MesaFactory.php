@@ -13,10 +13,11 @@ class MesaFactory extends Factory
     public function definition(): array
     {
         return [
+            'idMesa' => $this->faker->numberBetween(1, 9999),   // ← NECESARIO EN TU MODELO
             'electores' => $this->faker->numberBetween(1, 500),
             'establecimiento' => 'Escuela ' . $this->faker->company(),
             'circuito' => 'Circuito ' . $this->faker->numberBetween(1, 100),
-            'idProvincia' => Provincia::factory(),
+            'idProvincia' => Provincia::factory(),               // genera provincia válida
         ];
     }
 }

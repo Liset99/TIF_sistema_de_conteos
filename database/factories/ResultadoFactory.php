@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Resultado;
-use App\Models\Lista;
+use App\Models\Resultado; 
 use App\Models\Telegrama;
+use App\Models\Lista;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ResultadoFactory extends Factory
@@ -15,9 +15,11 @@ class ResultadoFactory extends Factory
     {
         return [
             'votos' => $this->faker->numberBetween(0, 500),
-            'porcentaje' => $this->faker->randomFloat(2, 0, 100), // Decimal entre 0.00 y 100.00
-            'idLista' => Lista::factory(),
+            'porcentaje' => $this->faker->randomFloat(2, 0, 100),
             'idTelegrama' => Telegrama::factory(),
+            'idLista' => function () {
+                return Lista::factory()->create()->idLista;
+            },
         ];
     }
 }

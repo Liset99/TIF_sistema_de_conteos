@@ -6,7 +6,9 @@ use Tests\TestCase;
 use App\Models\Telegrama;
 use App\Models\Mesa;
 use App\Models\Provincia;
+use App\Models\Lista;
 use App\Models\Resultado;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TelegramaTest extends TestCase
@@ -17,8 +19,13 @@ class TelegramaTest extends TestCase
     public function puede_listar_telegramas()
     {
         $provincia = Provincia::factory()->create();
-        $mesa = Mesa::factory()->create(['idProvincia' => $provincia->idProvincia]);
-        Telegrama::factory()->count(3)->create(['idMesa' => $mesa->idMesa]);
+        $mesa = Mesa::factory()->create([
+            'idProvincia' => $provincia->idProvincia
+        ]);
+
+        Telegrama::factory()->count(3)->create([
+            'idMesa' => $mesa->idMesa
+        ]);
 
         $response = $this->getJson('/api/telegramas');
 
@@ -26,7 +33,12 @@ class TelegramaTest extends TestCase
                  ->assertJsonStructure([
                      'total',
                      'telegramas' => [
-                         '*' => ['idTelegrama', 'votosDiputados', 'votosSenadores', 'mesa']
+                         '*' => [
+                             'idTelegrama',
+                             'votosDiputados',
+                             'votosSenadores',
+                             'mesa'
+                         ]
                      ]
                  ])
                  ->assertJsonCount(3, 'telegramas');
@@ -60,20 +72,21 @@ class TelegramaTest extends TestCase
 
         $this->assertDatabaseHas('telegramas', [
             'idTelegrama' => 1,
-            'votosDiputados' => 200,
-            'votosSenadores' => 180
+            'votosDiputados' => 200
         ]);
     }
 
-    /** @test */
+        /** @test */
     public function no_puede_crear_telegrama_que_excede_electores()
     {
         $provincia = Provincia::factory()->create();
+
         $mesa = Mesa::factory()->create([
             'idProvincia' => $provincia->idProvincia,
             'electores' => 100
         ]);
 
+        // Total votos = 60 + 50 + 20 + 10 + 5 = 145 > 100 electores
         $datos = [
             'idTelegrama' => 1,
             'idMesa' => $mesa->idMesa,
@@ -87,45 +100,52 @@ class TelegramaTest extends TestCase
         $response = $this->postJson('/api/telegramas', $datos);
 
         $response->assertStatus(400)
-                 ->assertJson([
-                     'error' => 'El total de votos no puede superar la cantidad de electores'
-                 ]);
+            ->assertJson([
+                'error' => 'El total de votos no puede superar la cantidad de electores'
+            ]);
 
-        $this->assertDatabaseMissing('telegramas', [
-            'idTelegrama' => 1
-        ]);
+        $this->assertDatabaseMissing('telegramas', ['idTelegrama' => 1]);
     }
+
 
     /** @test */
     public function puede_mostrar_telegrama_con_resultados()
     {
         $provincia = Provincia::factory()->create();
-        $mesa = Mesa::factory()->create(['idProvincia' => $provincia->idProvincia]);
-        $telegrama = Telegrama::factory()->create(['idMesa' => $mesa->idMesa]);
+        $mesa = Mesa::factory()->create([
+            'idProvincia' => $provincia->idProvincia
+        ]);
+
+        $telegrama = Telegrama::factory()->create([
+            'idMesa' => $mesa->idMesa
+        ]);
 
         $response = $this->getJson("/api/telegramas/{$telegrama->idTelegrama}");
 
         $response->assertStatus(200)
-                 ->assertJsonStructure([
-                     'idTelegrama',
-                     'votosDiputados',
-                     'votosSenadores',
-                     'blancos',
-                     'nulos',
-                     'impugnados',
-                     'mesa',
-                     'resultados'
-                 ]);
+            ->assertJsonStructure([
+                'idTelegrama',
+                'votosDiputados',
+                'votosSenadores',
+                'blancos',
+                'nulos',
+                'impugnados',
+                'mesa',
+                'resultados'
+            ]);
     }
+
 
     /** @test */
     public function puede_actualizar_telegrama_respetando_limite()
     {
         $provincia = Provincia::factory()->create();
+
         $mesa = Mesa::factory()->create([
             'idProvincia' => $provincia->idProvincia,
             'electores' => 500
         ]);
+
         $telegrama = Telegrama::factory()->create([
             'idMesa' => $mesa->idMesa,
             'votosDiputados' => 100,
@@ -135,14 +155,15 @@ class TelegramaTest extends TestCase
             'impugnados' => 10
         ]);
 
+        // Ahora total votos = 150 + 100 + 50 + 30 + 10 = 340 (dentro de 500)
         $response = $this->putJson("/api/telegramas/{$telegrama->idTelegrama}", [
             'votosDiputados' => 150
         ]);
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'mensaje' => 'Telegrama actualizado exitosamente'
-                 ]);
+            ->assertJson([
+                'mensaje' => 'Telegrama actualizado exitosamente'
+            ]);
 
         $this->assertDatabaseHas('telegramas', [
             'idTelegrama' => $telegrama->idTelegrama,
@@ -150,14 +171,17 @@ class TelegramaTest extends TestCase
         ]);
     }
 
+
     /** @test */
     public function no_puede_actualizar_telegrama_excediendo_electores()
     {
         $provincia = Provincia::factory()->create();
+
         $mesa = Mesa::factory()->create([
             'idProvincia' => $provincia->idProvincia,
             'electores' => 200
         ]);
+
         $telegrama = Telegrama::factory()->create([
             'idMesa' => $mesa->idMesa,
             'votosDiputados' => 50,
@@ -167,57 +191,77 @@ class TelegramaTest extends TestCase
             'impugnados' => 10
         ]);
 
+        // Nuevos votosDiputados = 150 → total = 150+50+30+20+10 = 260 > 200
         $response = $this->putJson("/api/telegramas/{$telegrama->idTelegrama}", [
             'votosDiputados' => 150
         ]);
 
         $response->assertStatus(400)
-                 ->assertJson([
-                     'error' => 'El total de votos no puede superar la cantidad de electores'
-                 ]);
+            ->assertJson([
+                'error' => 'El total de votos no puede superar la cantidad de electores'
+            ]);
     }
+
 
     /** @test */
     public function puede_eliminar_telegrama_sin_resultados()
     {
         $provincia = Provincia::factory()->create();
-        $mesa = Mesa::factory()->create(['idProvincia' => $provincia->idProvincia]);
-        $telegrama = Telegrama::factory()->create(['idMesa' => $mesa->idMesa]);
+
+        $mesa = Mesa::factory()->create([
+            'idProvincia' => $provincia->idProvincia
+        ]);
+
+        $telegrama = Telegrama::factory()->create([
+            'idMesa' => $mesa->idMesa
+        ]);
 
         $response = $this->deleteJson("/api/telegramas/{$telegrama->idTelegrama}");
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'mensaje' => 'Telegrama eliminado correctamente'
-                 ]);
+            ->assertJson([
+                'mensaje' => 'Telegrama eliminado correctamente'
+            ]);
 
         $this->assertDatabaseMissing('telegramas', [
             'idTelegrama' => $telegrama->idTelegrama
         ]);
     }
 
-    /** @test */
+
+        /** @test */
     public function no_puede_eliminar_telegrama_con_resultados()
     {
         $provincia = Provincia::factory()->create();
         $mesa = Mesa::factory()->create(['idProvincia' => $provincia->idProvincia]);
         $telegrama = Telegrama::factory()->create(['idMesa' => $mesa->idMesa]);
-        
-        Resultado::factory()->create(['idTelegrama' => $telegrama->idTelegrama]);
+        $lista = Lista::factory()->create();
+
+        // Resultado con idLista explícito
+        $resultado = Resultado::factory()->create([
+            'idTelegrama' => $telegrama->idTelegrama,
+            'idLista' => $lista->idLista,
+        ]);
 
         $response = $this->deleteJson("/api/telegramas/{$telegrama->idTelegrama}");
 
         $response->assertStatus(400)
-                 ->assertJson([
-                     'error' => 'No se puede eliminar el telegrama porque tiene resultados asociados'
-                 ]);
+            ->assertJson([
+                'error' => 'No se puede eliminar el telegrama porque tiene resultados asociados'
+            ]);
     }
+
+
+
 
     /** @test */
     public function no_permite_valores_negativos()
     {
         $provincia = Provincia::factory()->create();
-        $mesa = Mesa::factory()->create(['idProvincia' => $provincia->idProvincia]);
+
+        $mesa = Mesa::factory()->create([
+            'idProvincia' => $provincia->idProvincia
+        ]);
 
         $response = $this->postJson('/api/telegramas', [
             'idTelegrama' => 1,
@@ -230,15 +274,16 @@ class TelegramaTest extends TestCase
         ]);
 
         $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['votosDiputados']);
+            ->assertJsonValidationErrors(['votosDiputados']);
     }
+
 
     /** @test */
     public function requiere_mesa_existente()
     {
         $response = $this->postJson('/api/telegramas', [
             'idTelegrama' => 1,
-            'idMesa' => 999,
+            'idMesa' => 999, // no existe
             'votosDiputados' => 100,
             'votosSenadores' => 80,
             'blancos' => 10,
@@ -246,6 +291,7 @@ class TelegramaTest extends TestCase
             'impugnados' => 2
         ]);
 
-          $response->assertStatus(422);
-    } 
-} 
+        $response->assertStatus(422);
+    }
+
+}

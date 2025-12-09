@@ -13,13 +13,14 @@ class TelegramaFactory extends Factory
     public function definition(): array
     {
         return [
+            'idTelegrama' => $this->faker->numberBetween(1, 9999),   // tu modelo tampoco auto-incrementa
             'votosDiputados' => $this->faker->numberBetween(0, 300),
             'votosSenadores' => $this->faker->numberBetween(0, 300),
             'blancos' => $this->faker->numberBetween(0, 50),
             'nulos' => $this->faker->numberBetween(0, 30),
             'impugnados' => $this->faker->numberBetween(0, 20),
-            'fechaHora' => $this->faker->dateTimeBetween('-1 month', 'now'),
-            
+            'fechaHora' => now(),
+            'idMesa' => Mesa::factory(),     // ← NECESARIO PARA evitar null
         ];
     }
 }
