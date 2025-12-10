@@ -14,7 +14,10 @@ class Mesa extends Model
     protected $keyType = 'int';
     public $timestamps = true;
 
-    protected $fillable = ['idMesa', 'electores', 'establecimiento', 'circuito', 'idProvincia'];
+    protected $fillable = [
+        'idMesa', 'electores', 'establecimiento',
+        'circuito', 'idProvincia'
+    ];
 
     public function provincia()
     {
@@ -25,4 +28,17 @@ class Mesa extends Model
     {
         return $this->hasMany(Telegrama::class, 'idMesa', 'idMesa');
     }
+
+    // LÓGICA DE DOMINIO
+
+    public function tieneTelegramasCargados(): bool
+    {
+        return count($this->telegramas) > 0;
+    }
+
+    public function electoresValidos(): bool
+    {
+        return $this->electores > 0;
+    }
 }
+

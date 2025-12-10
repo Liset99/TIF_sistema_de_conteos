@@ -15,7 +15,10 @@ class Resultado extends Model
     protected $keyType = 'int';
     public $timestamps = true;
 
-    protected $fillable = ['idResultado', 'votos', 'porcentaje', 'idLista', 'idTelegrama'];
+    protected $fillable = [
+        'idResultado', 'votos', 'porcentaje',
+        'idLista', 'idTelegrama'
+    ];
 
     public function lista()
     {
@@ -25,6 +28,17 @@ class Resultado extends Model
     public function telegrama()
     {
         return $this->belongsTo(Telegrama::class, 'idTelegrama', 'idTelegrama');
+    }
+
+    // LÓGICA DE DOMINIO
+
+    public function calcularPorcentaje(int $totalVotos): float
+    {
+        if ($totalVotos === 0) {
+            return 0.0;
+        }
+
+        return round(($this->votos / $totalVotos) * 100, 2);
     }
 }
 

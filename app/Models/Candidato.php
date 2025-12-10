@@ -14,13 +14,21 @@ class Candidato extends Model
     protected $keyType = 'int';
     public $timestamps = true;
 
-    protected $fillable = ['idCandidato', 'cargo', 'ordenEnLista', 'nombre', 'apellido', 'idLista'];
-
-    
+    protected $fillable = [
+        'idCandidato', 'cargo', 'ordenEnLista',
+        'nombre', 'apellido', 'idLista'
+    ];
 
     public function lista()
     {
         return $this->belongsTo(Lista::class, 'idLista', 'idLista');
+    }
+
+    // LÓGICA DE DOMINIO
+
+    public function nombreCompleto(): string
+    {
+        return trim($this->nombre . ' ' . $this->apellido);
     }
 }
 
