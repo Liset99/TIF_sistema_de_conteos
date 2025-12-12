@@ -26,16 +26,17 @@ class ProvinciaController extends Controller
         ]);
     }
 
-    // Crear
+  // Crear
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'idProvincia' => 'required|integer|unique:Provincia,idProvincia',
-            'nombre' => 'required|string|max:255|unique:Provincia,nombre',
+            // QUITAR 'idProvincia' de la validación.
+            'nombre' => 'required|string|max:255|unique:provincias,nombre', // Usar nombre de tabla minúsculas
             'codigo' => 'nullable|string|max:10',
             'region' => 'nullable|string|max:100',
         ]);
-
+        
+        // Laravel asignará automáticamente el idProvincia si lo configuras como clave primaria.
         $provincia = Provincia::create($validated);
 
         return response()->json([
